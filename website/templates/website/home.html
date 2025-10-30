@@ -1,0 +1,344 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block title %}The Meengal - Premium Dry Fish | Home{% endblock %}
+{% block content %}
+<style>
+    /* Hero Section */
+     /* Hero Section - moved to base for consistency */
+    .hero {
+        background: linear-gradient(135deg, #0a3d62 0%, #1e5f8c 50%, #38b6ff 100%);
+        color: white;
+        padding: 80px 20px;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .hero p {
+        font-size: 1.3rem;
+        margin-bottom: 30px;
+        opacity: 0.95;
+    }
+
+    .cta-button {
+        background: white;
+        color: #0a3d62;
+        padding: 15px 40px;
+        border: none;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+
+    @media (max-width: 768px) {
+        .hero h1 {
+            font-size: 2rem;
+        }
+    }
+
+    /* Features Section */
+    .features {
+        background: white;
+        padding: 60px 20px;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+    }
+
+    .feature-card {
+        text-align: center;
+        padding: 30px;
+        background: #f8f9fa;
+        border-radius: 15px;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(10, 61, 98, 0.1);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+    }
+
+    .feature-card h3 {
+        color: #0a3d62;
+        margin-bottom: 10px;
+    }
+
+    /* Products Section */
+    .products {
+        background: linear-gradient(180deg, #f8f9fa 0%, white 100%);
+        padding: 60px 20px;
+    }
+
+    .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        color: #0a3d62;
+        margin-bottom: 50px;
+    }
+
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+    }
+
+    .product-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(10, 61, 98, 0.2);
+    }
+
+    .product-image {
+        width: 100%;
+        height: 250px;
+        background: linear-gradient(135deg, #38b6ff 0%, #1e5f8c 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+    }
+
+    .product-info {
+        padding: 20px;
+    }
+
+    .product-info h3 {
+        color: #0a3d62;
+        margin-bottom: 10px;
+        font-size: 1.3rem;
+    }
+
+    .product-info p {
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    .product-price {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 15px;
+    }
+
+    .price {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #0a3d62;
+    }
+
+    .buy-button {
+        background: #38b6ff;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s;
+    }
+
+    .buy-button:hover {
+        background: #2196f3;
+    }
+
+    /* About Section */
+    .about {
+        background: #0a3d62;
+        color: white;
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    .about h2 {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+    }
+
+    .about p {
+        font-size: 1.1rem;
+        max-width: 800px;
+        margin: 0 auto;
+        line-height: 1.8;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .hero h1 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+
+<!-- Hero Section -->
+<section class="hero" id="home">
+    <h1>Premium Dry Fish Delivered Fresh</h1>
+    <p>Authentic taste from the coastal waters to your doorstep</p>
+    <a href="#products" class="cta-button">Shop Now</a>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">Why Choose The Meengal?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🐟</div>
+                <h3>Premium Quality</h3>
+                <p>Carefully selected and processed for the finest taste</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🚚</div>
+                <h3>Fast Delivery</h3>
+                <p>Fresh delivery to your home within 2-3 days</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">✓</div>
+                <h3>100% Authentic</h3>
+                <p>Traditional methods, genuine coastal flavors</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Best Prices</h3>
+                <p>Direct from source, no middlemen</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Products Section -->
+<section class="products" id="products">
+    <div class="container">
+        <h2 class="section-title">Our Premium Dry Fish Collection</h2>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-image">🐟</div>
+                <div class="product-info">
+                    <h3>Dry Anchovy (Nethili)</h3>
+                    <p>Rich in calcium and omega-3. Perfect for curry and fry.</p>
+                    <div class="product-price">
+                        <span class="price">₹280/kg</span>
+                        <button class="buy-button">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">🦐</div>
+                <div class="product-info">
+                    <h3>Dry Prawns (Eral)</h3>
+                    <p>Premium quality dried prawns with authentic coastal flavor.</p>
+                    <div class="product-price">
+                        <span class="price">₹850/kg</span>
+                        <button class="buy-button">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">🐠</div>
+                <div class="product-info">
+                    <h3>Dry Mackerel (Kumla)</h3>
+                    <p>Sun-dried mackerel, perfect for traditional recipes.</p>
+                    <div class="product-price">
+                        <span class="price">₹420/kg</span>
+                        <button class="buy-button">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">🦈</div>
+                <div class="product-info">
+                    <h3>Dry Shark (Sura)</h3>
+                    <p>Premium dry shark meat, rich flavor and texture.</p>
+                    <div class="product-price">
+                        <span class="price">₹650/kg</span>
+                        <button class="buy-button">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">🐙</div>
+                <div class="product-info">
+                    <h3>Dry Squid (Kanava)</h3>
+                    <p>Tender dried squid, ideal for spicy preparations.</p>
+                    <div class="product-price">
+                        <span class="price">₹720/kg</span>
+                        <button class="buy-button">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">🐟</div>
+                <div class="product-info">
+                    <h3>Dry Bombay Duck (Bombil)</h3>
+                    <p>Classic dry fish with unique taste and texture.</p>
+                    <div class="product-price">
+                        <span class="price">₹380/kg</span>
+                        <button class="buy-button">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about" id="about">
+    <div class="container">
+        <h2>About The Meengal</h2>
+        <p>The Meengal brings you the finest dry fish directly from the coastal regions of India. With generations of expertise in fish processing and a commitment to quality, we ensure that every product retains its authentic taste and nutritional value. Our dry fish is carefully sun-dried using traditional methods, preserving the natural flavors that make coastal cuisine so special. Coming soon: Fresh fish delivery to bring the ocean's bounty straight to your kitchen!</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Simple cart functionality
+    let cartCount = 0;
+    document.querySelectorAll('.buy-button').forEach(button => {
+        button.addEventListener('click', function() {
+            cartCount++;
+            document.querySelector('.cart-icon').textContent = `🛒 Cart (${cartCount})`;
+            this.textContent = 'Added!';
+            this.style.background = '#27ae60';
+            setTimeout(() => {
+                this.textContent = 'Add to Cart';
+                this.style.background = '#38b6ff';
+            }, 2000);
+        });
+    });
+</script>
+{% endblock %}
