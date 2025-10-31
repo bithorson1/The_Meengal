@@ -1,0 +1,641 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block title %}About Us - The Meengal | Our Story{% endblock %}
+{% block content %}
+<style>
+    /* Hero Section */
+    .about-hero {
+        background-image: linear-gradient(rgba(10, 61, 98, 0.8), rgba(30, 95, 140, 0.75)), url('{% static "assets/website/bridge4.jpg" %}');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: white;
+        padding: 100px 20px;
+        text-align: center;
+    }
+
+    .about-hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .about-hero p {
+        font-size: 1.3rem;
+        max-width: 700px;
+        margin: 0 auto;
+        line-height: 1.8;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
+    /* Story Section */
+    .story-section {
+        padding: 80px 20px;
+        background: white;
+    }
+
+    .story-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+    }
+
+    .story-content h2 {
+        font-size: 2.8rem;
+        color: #0a3d62;
+        margin-bottom: 25px;
+    }
+
+    .story-content p {
+        font-size: 1.1rem;
+        color: #555;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .story-highlight {
+        background: #f0f8ff;
+        border-left: 4px solid #38b6ff;
+        padding: 20px;
+        margin: 30px 0;
+        font-style: italic;
+        color: #0a3d62;
+    }
+
+    .story-image {
+        background: linear-gradient(135deg, #38b6ff 0%, #1e5f8c 100%);
+        border-radius: 20px;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 8rem;
+        box-shadow: 0 10px 40px rgba(10, 61, 98, 0.2);
+    }
+
+    /* Values Section */
+    .values-section {
+        background-image: url('{% static "assets/website/bridge4.jpg" %}');
+        background-size: cover;
+        background-position: center;
+        padding: 80px 20px;
+        position: relative;
+    }
+
+    .values-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.9) 0%,
+            rgba(240, 248, 255, 0.85) 50%,
+            rgba(255, 255, 255, 0.9) 100%
+        );
+        z-index: 1;
+    }
+
+    .values-section > * {
+        position: relative;
+        z-index: 2;
+    }
+
+    .values-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .values-header h2 {
+        font-size: 2.8rem;
+        color: #0a3d62;
+        margin-bottom: 15px;
+    }
+
+    .values-header p {
+        font-size: 1.2rem;
+        color: #555;
+    }
+
+    .values-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 40px;
+    }
+
+    .value-card {
+        background: white;
+        padding: 40px 30px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .value-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(10, 61, 98, 0.2);
+    }
+
+    .value-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+    }
+
+    .value-card h3 {
+        color: #0a3d62;
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+    }
+
+    .value-card p {
+        color: #666;
+        line-height: 1.7;
+    }
+
+    /* Process Section */
+    .process-section {
+        padding: 80px 20px;
+        background: linear-gradient(180deg, #f8f9fa 0%, white 100%);
+    }
+
+    .process-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .process-header h2 {
+        font-size: 2.8rem;
+        color: #0a3d62;
+        margin-bottom: 15px;
+    }
+
+    .process-header p {
+        font-size: 1.2rem;
+        color: #555;
+    }
+
+    .process-timeline {
+        max-width: 1000px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .process-step {
+        display: flex;
+        gap: 30px;
+        margin-bottom: 50px;
+        align-items: center;
+    }
+
+    .process-step:nth-child(even) {
+        flex-direction: row-reverse;
+    }
+
+    .step-number {
+        min-width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #38b6ff 0%, #1e5f8c 100%);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        font-weight: bold;
+        box-shadow: 0 5px 20px rgba(56, 182, 255, 0.4);
+    }
+
+    .step-content {
+        flex: 1;
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .step-content h3 {
+        color: #0a3d62;
+        font-size: 1.6rem;
+        margin-bottom: 10px;
+    }
+
+    .step-content p {
+        color: #666;
+        line-height: 1.7;
+    }
+
+    /* Team Section */
+    .team-section {
+        padding: 80px 20px;
+        background: white;
+    }
+
+    .team-header {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+
+    .team-header h2 {
+        font-size: 2.8rem;
+        color: #0a3d62;
+        margin-bottom: 15px;
+    }
+
+    .team-header p {
+        font-size: 1.2rem;
+        color: #555;
+    }
+
+    .team-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 40px;
+    }
+
+    .team-member {
+        text-align: center;
+        transition: transform 0.3s;
+    }
+
+    .team-member:hover {
+        transform: translateY(-10px);
+    }
+
+    .member-photo {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        margin: 0 auto 20px;
+        background: linear-gradient(135deg, #38b6ff 0%, #1e5f8c 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 5rem;
+        box-shadow: 0 5px 20px rgba(56, 182, 255, 0.3);
+    }
+
+    .team-member h3 {
+        color: #0a3d62;
+        font-size: 1.4rem;
+        margin-bottom: 5px;
+    }
+
+    .team-member .role {
+        color: #38b6ff;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .team-member p {
+        color: #666;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    /* Stats Section */
+    .stats-section {
+        background: linear-gradient(135deg, #0a3d62 0%, #1e5f8c 100%);
+        padding: 60px 20px;
+        color: white;
+    }
+
+    .stats-grid {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        text-align: center;
+    }
+
+    .stat-item h3 {
+        font-size: 3.5rem;
+        margin-bottom: 10px;
+        color: #38b6ff;
+    }
+
+    .stat-item p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        padding: 80px 20px;
+        text-align: center;
+        background: #f8f9fa;
+    }
+
+    .cta-section h2 {
+        font-size: 2.5rem;
+        color: #0a3d62;
+        margin-bottom: 20px;
+    }
+
+    .cta-section p {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 30px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .cta-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .cta-button {
+        background: #0a3d62;
+        color: white;
+        padding: 15px 40px;
+        border: none;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 4px 15px rgba(10, 61, 98, 0.3);
+    }
+
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(10, 61, 98, 0.4);
+        background: #1e5f8c;
+    }
+
+    .cta-button.secondary {
+        background: white;
+        color: #0a3d62;
+        border: 2px solid #0a3d62;
+    }
+
+    .cta-button.secondary:hover {
+        background: #0a3d62;
+        color: white;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .about-hero h1 {
+            font-size: 2.2rem;
+        }
+
+        .about-hero p {
+            font-size: 1.1rem;
+        }
+
+        .story-container {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .story-content h2,
+        .values-header h2,
+        .process-header h2,
+        .team-header h2 {
+            font-size: 2rem;
+        }
+
+        .story-image {
+            height: 300px;
+            font-size: 6rem;
+        }
+
+        .values-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .process-step,
+        .process-step:nth-child(even) {
+            flex-direction: column;
+        }
+
+        .step-number {
+            min-width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+        }
+
+        .team-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .stat-item h3 {
+            font-size: 2.5rem;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+        }
+
+        .cta-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .cta-button {
+            width: 100%;
+            max-width: 300px;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="about-hero">
+    <div class="container">
+        <h1>About The Meengal</h1>
+        <p>Bringing generations of coastal tradition and expertise to deliver the finest dry fish from India's pristine waters to your table.</p>
+    </div>
+</section>
+
+<!-- Our Story -->
+<section class="story-section">
+    <div class="story-container">
+        <div class="story-content">
+            <h2>Our Story</h2>
+            <p>The Meengal was born from a deep-rooted passion for preserving the authentic flavors of coastal India. For generations, our families have been connected to the sea, understanding the delicate art of selecting, processing, and drying fish using time-honored traditional methods.</p>
+            <p>What started as a small family operation has grown into a trusted name in premium dry fish, but our commitment remains unchanged: to deliver only the highest quality products that honor our heritage and delight our customers.</p>
+            <div class="story-highlight">
+                "We don't just sell dry fish – we share a piece of our coastal heritage with every product."
+            </div>
+            <p>Today, we work directly with local fishermen and coastal communities, ensuring sustainable practices while supporting their livelihoods. Every piece of dry fish we offer tells a story of tradition, quality, and care.</p>
+        </div>
+        <div class="story-image">
+            🐟
+        </div>
+    </div>
+</section>
+
+<!-- Our Values -->
+<section class="values-section">
+    <div class="container">
+        <div class="values-header">
+            <h2>Our Core Values</h2>
+            <p>The principles that guide everything we do</p>
+        </div>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">✨</div>
+                <h3>Quality First</h3>
+                <p>We never compromise on quality. Every product is carefully inspected to ensure it meets our high standards before reaching you.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🌊</div>
+                <h3>Authentic Traditional Methods</h3>
+                <p>We use sun-drying and traditional processing techniques passed down through generations to preserve natural flavors.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🤝</div>
+                <h3>Community Support</h3>
+                <p>We work directly with local fishing communities, ensuring fair prices and supporting sustainable coastal livelihoods.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">🌿</div>
+                <h3>Sustainability</h3>
+                <p>We're committed to sustainable fishing practices and environmental responsibility in everything we do.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Process -->
+<section class="process-section">
+    <div class="container">
+        <div class="process-header">
+            <h2>Our Process</h2>
+            <p>From ocean to your table – how we ensure quality at every step</p>
+        </div>
+        <div class="process-timeline">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Sourcing</h3>
+                    <p>We work with trusted local fishermen who catch fish from pristine coastal waters using sustainable methods. Only the freshest catch is selected for processing.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Selection</h3>
+                    <p>Our experts carefully inspect each fish, selecting only premium quality specimens. We reject any fish that doesn't meet our strict standards.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Traditional Processing</h3>
+                    <p>Fish are cleaned and prepared using traditional methods, then sun-dried naturally. This preserves the authentic flavor and nutritional value.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Quality Check</h3>
+                    <p>Every batch undergoes rigorous quality checks to ensure proper drying, flavor, and hygiene standards before packaging.</p>
+                </div>
+            </div>
+            <div class="process-step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3>Delivery</h3>
+                    <p>Products are carefully packaged to maintain freshness and delivered directly to your doorstep with care and efficiency.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Team -->
+<section class="team-section">
+    <div class="container">
+        <div class="team-header">
+            <h2>Meet Our Team</h2>
+            <p>The passionate people behind The Meengal</p>
+        </div>
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="member-photo">👨‍💼</div>
+                <h3>Rajesh Kumar</h3>
+                <p class="role">Founder & CEO</p>
+                <p>Third-generation fisherman with 25+ years of experience in traditional fish processing.</p>
+            </div>
+            <div class="team-member">
+                <div class="member-photo">👩‍💼</div>
+                <h3>Priya Sharma</h3>
+                <p class="role">Quality Manager</p>
+                <p>Ensures every product meets our stringent quality standards through meticulous inspection.</p>
+            </div>
+            <div class="team-member">
+                <div class="member-photo">👨‍💼</div>
+                <h3>Arjun Nair</h3>
+                <p class="role">Operations Head</p>
+                <p>Manages sourcing and relationships with coastal fishing communities across India.</p>
+            </div>
+            <div class="team-member">
+                <div class="member-photo">👩‍💼</div>
+                <h3>Lakshmi Iyer</h3>
+                <p class="role">Customer Relations</p>
+                <p>Dedicated to ensuring every customer has an exceptional experience with The Meengal.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h3>25+</h3>
+                <p>Years of Experience</p>
+            </div>
+            <div class="stat-item">
+                <h3>50+</h3>
+                <p>Fishing Communities</p>
+            </div>
+            <div class="stat-item">
+                <h3>10,000+</h3>
+                <p>Happy Customers</p>
+            </div>
+            <div class="stat-item">
+                <h3>100%</h3>
+                <p>Quality Guaranteed</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Ready to Experience Premium Dry Fish?</h2>
+        <p>Explore our collection of authentic, traditionally processed dry fish delivered fresh to your doorstep.</p>
+        <div class="cta-buttons">
+            <a href="{% url 'product' %}" class="cta-button">Shop Now</a>
+            <a href="#contact" class="cta-button secondary">Contact Us</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

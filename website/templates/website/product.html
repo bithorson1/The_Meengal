@@ -1,0 +1,752 @@
+{% extends 'website/base.html' %}
+{% load static %}
+{% block title %}Products - The Meengal | Premium Dry Fish{% endblock %}
+{% block content %}
+<style>
+    /* Page Header */
+    .page-header {
+        background-image: linear-gradient(rgba(10, 61, 98, 0.85), rgba(30, 95, 140, 0.8)), url('{% static "assets/website/clear-03.jpg" %}');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 80px 20px 60px;
+        text-align: center;
+    }
+
+    .page-header h1 {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .page-header p {
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+    }
+
+    /* Filter Section */
+    .filters {
+        background: #f8f9fa;
+        padding: 30px 20px;
+        border-bottom: 2px solid #e0e0e0;
+    }
+
+    .filter-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .filter-group {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .filter-label {
+        font-weight: 600;
+        color: #0a3d62;
+    }
+
+    .filter-btn {
+        background: white;
+        border: 2px solid #0a3d62;
+        color: #0a3d62;
+        padding: 8px 20px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+
+    .filter-btn:hover,
+    .filter-btn.active {
+        background: #0a3d62;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(10, 61, 98, 0.2);
+    }
+
+    .search-box {
+        display: flex;
+        gap: 10px;
+    }
+
+    .search-input {
+        padding: 10px 20px;
+        border: 2px solid #0a3d62;
+        border-radius: 25px;
+        width: 250px;
+        font-size: 0.95rem;
+    }
+
+    .search-input:focus {
+        outline: none;
+        box-shadow: 0 0 10px rgba(10, 61, 98, 0.2);
+    }
+
+    /* Products Section */
+    .products-section {
+        background: white;
+        padding: 60px 20px;
+        min-height: 60vh;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+    .section-header h2 {
+        font-size: 2.5rem;
+        color: #0a3d62;
+        margin-bottom: 10px;
+    }
+
+    .products-count {
+        color: #666;
+        font-size: 1rem;
+    }
+
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 35px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .product-card {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+    }
+
+    .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(10, 61, 98, 0.2);
+    }
+
+    .product-image {
+        width: 100%;
+        height: 280px;
+        background: linear-gradient(135deg, #38b6ff 0%, #1e5f8c 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 5rem;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .product-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: #27ae60;
+        color: white;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .product-badge.popular {
+        background: #e74c3c;
+    }
+
+    .product-badge.new {
+        background: #f39c12;
+    }
+
+    .product-info {
+        padding: 25px;
+    }
+
+    .product-category {
+        color: #38b6ff;
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+    }
+
+    .product-info h3 {
+        color: #0a3d62;
+        margin-bottom: 12px;
+        font-size: 1.4rem;
+    }
+
+    .product-info p {
+        color: #666;
+        margin-bottom: 15px;
+        line-height: 1.6;
+    }
+
+    .product-features {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 15px;
+    }
+
+    .feature-tag {
+        background: #f0f8ff;
+        color: #0a3d62;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .product-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .price {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #0a3d62;
+    }
+
+    .price-unit {
+        font-size: 0.9rem;
+        color: #666;
+        font-weight: normal;
+    }
+
+    .add-to-cart-btn {
+        background: #38b6ff;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1rem;
+        transition: all 0.3s;
+        box-shadow: 0 4px 15px rgba(56, 182, 255, 0.3);
+    }
+
+    .add-to-cart-btn:hover {
+        background: #2196f3;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+    }
+
+    /* No Results */
+    .no-results {
+        text-align: center;
+        padding: 60px 20px;
+        color: #666;
+    }
+
+    .no-results-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+    }
+
+    .no-results h3 {
+        font-size: 1.8rem;
+        color: #0a3d62;
+        margin-bottom: 10px;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        background: linear-gradient(135deg, #0a3d62 0%, #1e5f8c 100%);
+        color: white;
+        padding: 60px 20px;
+        text-align: center;
+    }
+
+    .cta-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+
+    .cta-section p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .cta-button {
+        background: white;
+        color: #0a3d62;
+        padding: 15px 40px;
+        border: none;
+        border-radius: 30px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .page-header h1 {
+            font-size: 2rem;
+        }
+
+        .page-header p {
+            font-size: 1rem;
+        }
+
+        .filter-container {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .filter-group {
+            justify-content: center;
+        }
+
+        .search-box {
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+        }
+
+        .products-grid {
+            grid-template-columns: 1fr;
+            gap: 25px;
+        }
+
+        .product-footer {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+        }
+
+        .cta-section h2 {
+            font-size: 1.8rem;
+        }
+
+        .cta-section p {
+            font-size: 1rem;
+        }
+    }
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+        .products-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Our Premium Collection</h1>
+        <p>Discover our range of high-quality dry fish, sourced directly from coastal waters</p>
+    </div>
+</section>
+
+<!-- Filters -->
+<section class="filters">
+    <div class="filter-container">
+        <div class="filter-group">
+            <span class="filter-label">Category:</span>
+            <button class="filter-btn active" data-filter="all">All Products</button>
+            <button class="filter-btn" data-filter="fish">Fish</button>
+            <button class="filter-btn" data-filter="seafood">Seafood</button>
+            <button class="filter-btn" data-filter="premium">Premium</button>
+        </div>
+        <div class="search-box">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search products...">
+        </div>
+    </div>
+</section>
+
+<!-- Products Section -->
+<section class="products-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Available Products</h2>
+            <p class="products-count"><span id="productCount">12</span> products found</p>
+        </div>
+        
+        <div class="products-grid" id="productsGrid">
+            <!-- Product 1 -->
+            <div class="product-card" data-category="fish" data-name="Dry Anchovy Nethili">
+                <div class="product-image">
+                    🐟
+                    <span class="product-badge popular">Popular</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Fish</div>
+                    <h3>Dry Anchovy (Nethili)</h3>
+                    <p>Rich in calcium and omega-3 fatty acids. Perfect for making traditional curry and fry dishes.</p>
+                    <div class="product-features">
+                        <span class="feature-tag">High Protein</span>
+                        <span class="feature-tag">Calcium Rich</span>
+                        <span class="feature-tag">Omega-3</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">₹280<span class="price-unit">/kg</span></div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card" data-category="seafood premium" data-name="Dry Prawns Eral">
+                <div class="product-image">
+                    🦐
+                    <span class="product-badge">Premium</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Seafood</div>
+                    <h3>Dry Prawns (Eral)</h3>
+                    <p>Premium quality dried prawns with authentic coastal flavor. Ideal for making traditional sambar and curry.</p>
+                    <div class="product-features">
+                        <span class="feature-tag">Premium Quality</span>
+                        <span class="feature-tag">Rich Flavor</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">₹850<span class="price-unit">/kg</span></div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card" data-category="fish" data-name="Dry Mackerel Kumla">
+                <div class="product-image">
+                    🐠
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Fish</div>
+                    <h3>Dry Mackerel (Kumla)</h3>
+                    <p>Sun-dried mackerel, perfect for traditional recipes. High in omega-3 and natural proteins.</p>
+                    <div class="product-features">
+                        <span class="feature-tag">Sun Dried</span>
+                        <span class="feature-tag">Traditional</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">₹420<span class="price-unit">/kg</span></div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card" data-category="fish premium" data-name="Dry Shark Sura">
+                <div class="product-image">
+                    🦈
+                    <span class="product-badge">Premium</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Fish</div>
+                    <h3>Dry Shark (Sura)</h3>
+                    <p>Premium dry shark meat with rich flavor and firm texture. Excellent source of protein.</p>
+                    <div class="product-features">
+                        <span class="feature-tag">High Protein</span>
+                        <span class="feature-tag">Firm Texture</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">₹650<span class="price-unit">/kg</span></div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 5 -->
+            <div class="product-card" data-category="seafood" data-name="Dry Squid Kanava">
+                <div class="product-image">
+                    🐙
+                    <span class="product-badge new">New</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Seafood</div>
+                    <h3>Dry Squid (Kanava)</h3>
+                    <p>Tender dried squid, ideal for spicy preparations. Rich in protein and low in fat.</p>
+                    <div class="product-features">
+                        <span class="feature-tag">Low Fat</span>
+                        <span class="feature-tag">High Protein</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">₹720<span class="price-unit">/kg</span></div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 6 -->
+            <div class="product-card" data-category="fish" data-name="Dry Bombay Duck Bombil">
+                <div class="product-image">
+                    🐟
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Fish</div>
+                    <h3>Dry Bombay Duck (Bombil)</h3>
+                    <p>Classic dry fish with unique taste and delicate texture. Perfect for frying and curry.</p>
+                    <div class="product-features">
+                        <span class="feature-tag">Classic</span>
+                        <span class="feature-tag">Versatile</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">₹380<span class="price-unit">/kg</span></div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 7 -->
+            <div class="product-card" data-category="fish" data-name="Dry Sardine Mathi">
+                <div class="product-image">
+                    🐟
+                    <span class="product-badge popular">Popular</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Fish</div>
+                    <h3>Dry Sardine (Mathi)</h3>
+                    <p>Small, flavorful sardines dried to perfection. Rich in omega-3 and calcium for healthy bones.</p>
+                    <div class="product-features">
+                        <span class="feature-tag">Omega-3</span>
+                        <span class="feature-tag">Calcium</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">₹320<span class="price-unit">/kg</span></div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 8 -->
+            <div class="product-card" data-category="fish premium" data-name="Dry King Fish Vanjaram">
+                <div class="product-image">
+                    🐠
+                    <span class="product-badge">Premium</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Fish</div>
+                    <h3>Dry King Fish (Vanjaram)</h3>
+                    <p>Premium quality king fish, sun-dried using traditional methods. Firm texture with rich taste.</p>
+                    <div class="product-features">
+                        <span class="feature-tag">Premium</span>
+                        <span class="feature-tag">Firm Texture</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">₹780<span class="price-unit">/kg</span></div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 9 -->
+            <div class="product-card" data-category="seafood" data-name="Dry Crab Nandu">
+                <div class="product-image">
+                    🦀
+                    <span class="product-badge new">New</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Seafood</div>
+                    <h3>Dry Crab (Nandu)</h3>
+                    <p>Carefully dried crab with authentic coastal flavor. Perfect for making traditional crab curry.</p>
+                    <div class="product-features">
+                        <span class="feature-tag">Authentic</span>
+                        <span class="feature-tag">Rich Flavor</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">₹950<span class="price-unit">/kg</span></div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 10 -->
+            <div class="product-card" data-category="fish" data-name="Dry Tuna Surai">
+                <div class="product-image">
+                    🐟
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Fish</div>
+                    <h3>Dry Tuna (Surai)</h3>
+                    <p>High-quality tuna dried to preserve natural flavors. Excellent source of lean protein.</p>
+                    <div class="product-features">
+                        <span class="feature-tag">Lean Protein</span>
+                        <span class="feature-tag">Natural</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">₹540<span class="price-unit">/kg</span></div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 11 -->
+            <div class="product-card" data-category="fish" data-name="Dry Ribbon Fish Vala">
+                <div class="product-image">
+                    🐟
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Fish</div>
+                    <h3>Dry Ribbon Fish (Vala)</h3>
+                    <p>Long, flat ribbon fish dried using traditional methods. Perfect for curry and fry dishes.</p>
+                    <div class="product-features">
+                        <span class="feature-tag">Traditional</span>
+                        <span class="feature-tag">Versatile</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">₹460<span class="price-unit">/kg</span></div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 12 -->
+            <div class="product-card" data-category="seafood premium" data-name="Dry Lobster Kannipoochi">
+                <div class="product-image">
+                    🦞
+                    <span class="product-badge">Premium</span>
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Seafood</div>
+                    <h3>Dry Lobster (Kannipoochi)</h3>
+                    <p>Premium dried lobster with exquisite flavor. A delicacy for special occasions.</p>
+                    <div class="product-features">
+                        <span class="feature-tag">Premium</span>
+                        <span class="feature-tag">Delicacy</span>
+                    </div>
+                    <div class="product-footer">
+                        <div class="price">₹1,200<span class="price-unit">/kg</span></div>
+                        <button class="add-to-cart-btn">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="no-results" id="noResults" style="display: none;">
+            <div class="no-results-icon">🔍</div>
+            <h3>No products found</h3>
+            <p>Try adjusting your filters or search terms</p>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Need Help Choosing?</h2>
+        <p>Our team is here to help you find the perfect dry fish for your needs. Contact us today!</p>
+        <a href="#contact" class="cta-button">Contact Us</a>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+    // Filter and Search Functionality
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const productCards = document.querySelectorAll('.product-card');
+    const searchInput = document.getElementById('searchInput');
+    const productsGrid = document.getElementById('productsGrid');
+    const noResults = document.getElementById('noResults');
+    const productCount = document.getElementById('productCount');
+
+    let currentFilter = 'all';
+
+    // Filter functionality
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Update active button
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            
+            currentFilter = this.getAttribute('data-filter');
+            filterProducts();
+        });
+    });
+
+    // Search functionality
+    searchInput.addEventListener('input', function() {
+        filterProducts();
+    });
+
+    function filterProducts() {
+        const searchTerm = searchInput.value.toLowerCase();
+        let visibleCount = 0;
+
+        productCards.forEach(card => {
+            const category = card.getAttribute('data-category');
+            const name = card.getAttribute('data-name').toLowerCase();
+            
+            const matchesFilter = currentFilter === 'all' || category.includes(currentFilter);
+            const matchesSearch = name.includes(searchTerm);
+            
+            if (matchesFilter && matchesSearch) {
+                card.style.display = 'block';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Update count and show/hide no results
+        productCount.textContent = visibleCount;
+        if (visibleCount === 0) {
+            productsGrid.style.display = 'none';
+            noResults.style.display = 'block';
+        } else {
+            productsGrid.style.display = 'grid';
+            noResults.style.display = 'none';
+        }
+    }
+
+    // Add to Cart functionality
+    let cartCount = 0;
+    document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            cartCount++;
+            const cartIcon = document.querySelector('.cart-icon');
+            if (cartIcon) {
+                cartIcon.textContent = `🛒 Cart (${cartCount})`;
+            }
+            
+            // Button feedback
+            const originalText = this.textContent;
+            this.textContent = '✓ Added!';
+            this.style.background = '#27ae60';
+            
+            setTimeout(() => {
+                this.textContent = originalText;
+                this.style.background = '#38b6ff';
+            }, 2000);
+        });
+    });
+</script>
+{% endblock %}
